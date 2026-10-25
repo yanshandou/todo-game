@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#09111e" />
+  <meta name="description" content="QUEST ARCADE — 用无限树形清单，把每个计划变成一场冒险。" />
+  <title>QUEST ARCADE · 树形清单冒险</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 1.9 7.1L21 11l-7.1 1.9L12 20l-1.9-7.1L3 11l7.1-1.9L12 2Z"/><path d="m19 18 .7 2.3L22 21l-2.3.7L19 24l-.7-2.3L16 21l2.3-.7L19 18Z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c5 0 8-3.5 8-8 0-4-2-7-4-9-.1 3-1.8 4.5-3 5-1-4-4-7-6-8 0 4-3 7.5-3 12 0 4.5 3 8 8 8Z"/><path d="M12 22a4 4 0 0 0 4-4c0-2-1.3-3.4-2.2-4.4 0 1.6-1.1 2.3-1.8 2.4-.6-1.5-1.6-2.2-2.4-2.8 0 2-1.6 2.9-1.6 4.8a4 4 0 0 0 4 4Z"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 20h8M12 16v4M7 3h10v8a5 5 0 0 1-10 0V3ZM7 5H4v4a4 4 0 0 0 4 4M17 5h3v4a4 4 0 0 1-4 4"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 8-3 8-3 10h18c0-2-3-2-3-10ZM10 21h4"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 16-.8 4.8L8 20l11-11-4-4L4 16ZM13 7l4 4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-robot" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="13" rx="4"/><path d="M12 7V4m-3 0h6M8 13h.01M16 13h.01M9 17h6M2 12v4M22 12v4"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m21 3-7.5 18-3.5-7-7-3.5L21 3ZM10 14l11-11"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/><circle cx="12" cy="12" r="4"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2.5 2.5H19a2 2 0 0 1 2 2V19H3V7Z"/></symbol>
+    <symbol id="i-folder-plus" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2.5 2.5H19a2 2 0 0 1 2 2v9.5H3V7Z"/><path d="M12 11v6m-3-3h6"/></symbol>
+    <symbol id="i-sword" viewBox="0 0 24 24"><path d="m14 4 6-1-1 6-9 9-4-4 8-10ZM5 13l6 6m-8 2 4-4m-5-2 7 7"/></symbol>
+  </svg>
+  <div class="starscape" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar frame">
+      <a class="brand" href="#" aria-label="QUEST ARCADE 首页">
+        <span class="brand-mark"><svg><use href="#i-sword"/></svg></span>
+        <span class="brand-type"><b>QUEST<span>ARCADE</span></b><small>DAILY ADVENTURE SYSTEM / 01</small></span>
+      </a>
+      <div class="topbar-end">
+        <span class="server-chip"><span class="live-dot"></span> LOCAL SAVE <span class="server-desktop">/ OFFLINE READY</span></span>
+        <button type="button" class="icon-button" id="motion-toggle" title="切换动画效果" aria-label="关闭动画效果"><svg><use href="#i-spark"/></svg></button>
+        <button type="button" class="icon-button" id="notifications-button" title="允许浏览器提醒" aria-label="开启浏览器通知"><svg><use href="#i-bell"/></svg><span class="notice-dot"></span></button>
+        <span class="avatar-mini" title="勇者档案">Q</span>
+      </div>
+    </header>
+
+    <main class="frame main-content">
+      <section class="hero panel-cut" aria-labelledby="hero-title">
+        <div class="hero-grain" aria-hidden="true"></div>
+        <div class="hero-content">
+          <div class="eyebrow"><span class="eyebrow-stroke"></span> MISSION CONTROL <span class="eyebrow-count">SEASON 01</span></div>
+          <h1 id="hero-title">每一层清单，<br /><em>都是一场冒险。</em></h1>
+          <p>无限嵌套，一层层推进。子清单全部完成，父清单自动通关。</p>
+          <div class="hero-actions">
+            <button type="button" class="button button-primary" data-open-task><svg><use href="#i-plus"/></svg> 创建新清单 <svg class="button-arrow"><use href="#i-arrow"/></svg></button>
+            <button type="button" class="button button-secondary" data-open-ai><svg><use href="#i-robot"/></svg> 召唤 AI 参谋</button>
+          </div>
+        </div>
+        <div class="hero-character" aria-hidden="true">
+          <span class="char-ring char-ring-outer"></span><span class="char-ring char-ring-inner"></span><span class="char-star char-star-one">✦</span><span class="char-star char-star-two">✦</span>
+          <svg class="mascot" viewBox="0 0 300 300" role="presentation">
+            <defs><linearGradient id="helmetGrad" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#b6f1d4"/><stop offset=".55" stop-color="#4dc6aa"/><stop offset="1" stop-color="#187e87"/></linearGradient><linearGradient id="visorGrad" x1="0" x2="1"><stop stop-color="#0b1c36"/><stop offset="1" stop-color="#12375c"/></linearGradient></defs>
+            <ellipse cx="151" cy="259" rx="84" ry="17" fill="#01111e" opacity=".5"/>
+            <path d="M98 221c-30 2-49 20-53 41h210c-4-21-27-39-55-41" fill="#173b61" stroke="#70c2af" stroke-width="6"/>
+            <path d="m117 211-7 38h80l-8-38" fill="#315d7c" stroke="#9ce8c8" stroke-width="6"/>
+            <path d="M80 124c0-48 25-85 70-85 44 0 72 37 72 85v58c0 45-33 72-72 72-40 0-70-28-70-72v-58Z" fill="url(#helmetGrad)" stroke="#c5fff0" stroke-width="7"/>
+            <path d="M99 70c-19 12-29 32-32 59l-15 1 7 39 21-2 8-33" fill="#f6b95b" stroke="#ffe0a2" stroke-width="6"/>
+            <path d="M205 70c19 12 29 32 32 59l15 1-7 39-21-2-8-33" fill="#f6b95b" stroke="#ffe0a2" stroke-width="6"/>
+            <path d="M86 131c4-29 27-47 64-47s60 18 64 47l-4 49c-25 21-95 21-120 0l-4-49Z" fill="url(#visorGrad)" stroke="#cffcef" stroke-width="6"/>
+            <rect x="105" y="127" width="21" height="22" rx="8" fill="#69f9e8"/><rect x="173" y="127" width="21" height="22" rx="8" fill="#69f9e8"/>
+            <path d="M134 171c10 9 22 9 32 0" fill="none" stroke="#fbd18e" stroke-width="6" stroke-linecap="round"/>
+            <path d="m150 26 13 17-13 19-13-19 13-17Z" fill="#ffd274" stroke="#fff3c0" stroke-width="5"/>
+            <path d="M119 209h62" stroke="#e5fff2" stroke-width="6" stroke-linecap="round"/>
+            <path d="m130 224 20 18 20-18" fill="#ffcc68" stroke="#fff0b6" stroke-width="4"/>
+            <circle cx="59" cy="100" r="7" fill="#ffcc68"/><circle cx="243" cy="85" r="5" fill="#a4ffe1"/>
+          </svg>
+          <div class="character-label"><span>YOUR COMPANION</span><strong>小勇者 · LV <b id="mascot-level">01</b></strong></div>
+        </div>
+        <div class="hero-accent" aria-hidden="true">✳&nbsp; YOUR QUEST STARTS HERE</div>
+      </section>
+
+      <section class="dashboard" aria-label="冒险数据">
+        <article class="stat-card"><div class="stat-icon stat-icon-gold"><svg><use href="#i-trophy"/></svg></div><div><span class="stat-label">今日进度 <small>DAILY CLEAR</small></span><div class="stat-value"><strong id="today-progress-number">0/0</strong><span>个清单</span></div></div><div class="stat-edge">01</div></article>
+        <article class="stat-card"><div class="stat-icon stat-icon-orange"><svg><use href="#i-flame"/></svg></div><div><span class="stat-label">连续挑战 <small>HOT STREAK</small></span><div class="stat-value"><strong id="streak-number">0</strong><span>天</span></div></div><div class="stat-edge">02</div></article>
+        <article class="stat-card"><div class="stat-icon stat-icon-teal"><svg><use href="#i-spark"/></svg></div><div><span class="stat-label">累计经验 <small>TOTAL XP</small></span><div class="stat-value"><strong id="total-xp-number">0</strong><span>XP</span></div></div><div class="stat-edge">03</div></article>
+      </section>
+
+      <section class="workspace">
+        <div class="quest-zone">
+          <div class="zone-header">
+            <div><div class="section-kicker"><span></span> QUEST BOARD / 清单战场</div><h2>冒险日志 <span class="heading-mark">// 001</span></h2></div>
+            <button type="button" class="mini-add" data-open-task aria-label="添加新清单"><svg><use href="#i-plus"/></svg> <span>新增清单</span></button>
+          </div>
+          <section class="collection-board" aria-label="无限树形清单">
+            <div class="collection-heading"><div><span class="collection-overline">MISSION TREE / 无限层级</span><h3><svg><use href="#i-folder"/></svg> 清单树 <span id="list-total" class="collection-total">0</span></h3></div><button type="button" class="collection-new" data-list-create="" title="创建顶级清单"><svg><use href="#i-plus"/></svg> 新清单</button></div>
+            <div class="collection-tree" id="collection-tree" role="group" aria-label="清单目录树"></div>
+            <div class="collection-current" id="collection-current" aria-live="polite"></div>
+          </section>
+          <div class="view-tabs" role="tablist" aria-label="清单状态">
+            <button type="button" role="tab" id="tab-todo" class="view-tab active" aria-selected="true" aria-controls="todo-view" data-view="todo"><svg><use href="#i-sword"/></svg> 进行中 <span class="tab-count" id="todo-count">0</span></button>
+            <button type="button" role="tab" id="tab-done" class="view-tab" aria-selected="false" aria-controls="done-view" data-view="done"><svg><use href="#i-check"/></svg> 已完成 <span class="tab-count" id="done-count">0</span></button>
+          </div>
+
+          <section id="todo-view" role="tabpanel" aria-labelledby="tab-todo">
+            <div class="list-toolbar"><div class="filter-group" aria-label="筛选清单"><button class="filter active" data-filter="all">全部清单</button><button class="filter" data-filter="today">今日</button><button class="filter" data-filter="upcoming">即将到期</button></div><span class="list-meta" id="todo-meta">READY FOR ACTION</span></div>
+            <div class="quest-list" id="todo-list"></div>
+            <div class="empty-state" id="todo-empty" hidden><div class="empty-orb">✦</div><h3>当前区域已清空！</h3><p>该层级没有待完成清单，试试新增一个子清单。</p><button type="button" class="button button-primary" data-open-task><svg><use href="#i-plus"/></svg> 创建新清单</button></div>
+          </section>
+
+          <section id="done-view" role="tabpanel" aria-labelledby="tab-done" hidden>
+            <div class="victory-banner"><div class="victory-emblem"><svg><use href="#i-trophy"/></svg></div><div><span>HALL OF VICTORY</span><h3>每一次完成，都算数。</h3><p>这里收藏着你一路打下来的胜利。</p></div><strong id="victory-total">00</strong></div>
+            <div class="achievement-strip" id="achievement-strip" aria-label="冒险成就"></div>
+            <div class="completed-title"><span>战绩记录</span><span id="done-meta">0 ITEMS</span></div>
+            <div class="quest-list" id="done-list"></div>
+            <div class="empty-state" id="done-empty" hidden><div class="empty-orb">✧</div><h3>成就簿还是空白</h3><p>去完成你的第一个清单吧。</p><button type="button" class="button button-secondary" data-view="todo">返回进行中</button></div>
+          </section>
+        </div>
+
+        <aside class="sidebar" aria-label="冒险辅助面板">
+          <section class="side-card level-card"><div class="side-card-top"><span class="side-eyebrow">PLAYER STATUS</span><span class="status-diamond">◆</span></div><div class="level-row"><div><span class="level-caption">当前等级</span><strong>LV.<span id="player-level">01</span></strong></div><span class="rank-badge" id="rank-title">见习冒险者</span></div><div class="xp-track"><div class="xp-track-fill" id="xp-progress-fill" style="width:0%"></div></div><div class="xp-foot"><span>经验进度</span><span id="xp-progress-label">0 / 180 XP</span></div><div class="level-tip"><svg><use href="#i-spark"/></svg> 每完成一个清单，离升级就更近一步。</div></section>
+
+          <section class="side-card ai-teaser"><div class="side-card-top"><span class="side-eyebrow">TACTICAL ASSISTANT</span><span class="on-air"><i></i> DEMO</span></div><div class="ai-teaser-head"><div class="bot-icon"><svg><use href="#i-robot"/></svg></div><div><h3>你的 AI 作战参谋</h3><p>说出计划，帮你生成树形清单。</p></div></div><div class="ai-speech">“准备旅行 > 订机票 > 比较价格”</div><button type="button" class="button ai-launch" data-open-ai>开始对话 <svg><use href="#i-arrow"/></svg></button><p class="side-note">本地规则演示 · 可解析 A > B > C 层级</p></section>
+
+          <section class="side-card calendar-card"><div class="side-card-top"><span class="side-eyebrow">MISSION CALENDAR</span><button class="side-link" type="button" data-open-calendar>展开 <svg><use href="#i-chevron"/></svg></button></div><div class="calendar-heading"><h3 id="calendar-month-label">2026 / 10</h3><div><button type="button" class="tiny-icon" data-month-step="-1" aria-label="上个月">‹</button><button type="button" class="tiny-icon" data-month-step="1" aria-label="下个月">›</button></div></div><div class="weekday-row"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div><div class="calendar-grid" id="calendar-grid"></div><div class="calendar-day-title" id="calendar-day-title">今日安排</div><div class="calendar-events" id="calendar-events"></div><button type="button" class="calendar-add" data-add-selected><svg><use href="#i-plus"/></svg> 为所选日期创建清单</button></section>
+
+          <div class="side-footer"><span class="live-dot"></span> 全部数据仅保存在此浏览器 <span>V 2.0 / LOCAL</span></div>
+        </aside>
+      </section>
+      <footer class="site-footer"><span>QUEST ARCADE © 2026</span><span>DO SMALL THINGS. WIN BIG DAYS.</span><span>PURE HTML · CSS · JS</span></footer>
+    </main>
+
+    <nav class="mobile-nav" aria-label="底部导航"><button type="button" class="mobile-link active" data-view="todo"><svg><use href="#i-sword"/></svg><span>待办清单</span></button><button type="button" class="mobile-link mobile-ai" data-open-ai><span class="mobile-ai-orb"><svg><use href="#i-robot"/></svg></span><span>AI 参谋</span></button><button type="button" class="mobile-link" data-view="done"><svg><use href="#i-trophy"/></svg><span>已完成</span></button></nav>
+  </div>
+
+  <dialog id="node-dialog" class="modal task-modal" aria-labelledby="node-dialog-title">
+    <form id="node-form" class="modal-inner"><div class="modal-top"><div><div class="section-kicker"><span></span> NEW MISSION NODE</div><h2 id="node-dialog-title">创建清单</h2></div><button type="button" class="close-button" data-close-dialog aria-label="关闭"><svg><use href="#i-close"/></svg></button></div>
+      <input type="hidden" id="edit-node-id" />
+      <label class="field"><span>清单名称 <em>*</em></span><input id="node-name" type="text" maxlength="90" required autocomplete="off" placeholder="例如：完成登录页面" /></label>
+      <label class="field"><span>上级清单（无限层级）</span><select id="node-parent"><option value="">根目录</option></select></label>
+      <div class="form-grid"><label class="field"><span>清单类型</span><select id="node-category"><option value="main">主线</option><option value="side">支线</option><option value="daily">每日</option></select></label><label class="field"><span>通关奖励</span><select id="node-xp"><option value="15">简单 · 15 XP</option><option value="30" selected>普通 · 30 XP</option><option value="50">困难 · 50 XP</option></select></label></div>
+      <label class="field"><span>计划时间（可选）</span><input type="datetime-local" id="node-due" /></label>
+      <label class="field"><span>提醒设置</span><select id="node-reminder"><option value="">不提醒</option><option value="0">到时提醒</option><option value="5">提前 5 分钟</option><option value="10">提前 10 分钟</option><option value="30">提前 30 分钟</option><option value="60">提前 1 小时</option></select></label>
+      <label class="field"><span>备注</span><textarea id="node-note" rows="2" maxlength="280" placeholder="下一步提示、攻略、注意事项……"></textarea></label>
+      <p class="field-hint"><svg><use href="#i-folder"/></svg> 叶子清单可手动完成；有子清单的父级自动计算完成状态。</p>
+      <div class="modal-actions"><button type="button" class="button button-secondary" data-close-dialog>取消</button><button type="submit" class="button button-primary" id="node-submit">创建清单 <svg><use href="#i-arrow"/></svg></button></div>
+    </form>
+  </dialog>
+
+  <dialog id="ai-dialog" class="modal ai-modal" aria-labelledby="ai-title"><div class="ai-dialog-layout"><header class="ai-dialog-head"><div class="ai-head-icon"><svg><use href="#i-robot"/></svg></div><div><div class="section-kicker"><span></span> TACTICAL ASSISTANT / LOCAL DEMO</div><h2 id="ai-title">作战参谋 <span>Q-BOT</span></h2></div><button type="button" class="close-button" data-close-dialog aria-label="关闭"><svg><use href="#i-close"/></svg></button></header>
+    <div class="ai-mode-warning">演示模式：使用本地规则提取清单，不是真实大模型。创建前必须由你确认。</div>
+    <div id="ai-chat" class="ai-chat" role="log" aria-live="polite"><div class="chat-message bot"><span class="chat-role">Q-BOT</span><p>冒险者，今天有什么安排？直接告诉我自然语言计划，我会整理成可编辑的树形清单。</p></div></div>
+    <div class="prompt-samples"><button type="button" data-ai-example="明天下午3点去银行，提前30分钟提醒">明天下午去银行</button><button type="button" data-ai-example="每天晚上9点练习日语听力">每天背日语</button><button type="button" data-ai-example="开发 APP > 登录模块 > 编写接口">拆解项目计划</button></div>
+    <div id="ai-preview" class="ai-preview" hidden><div class="preview-head"><strong>清单生成预览</strong><span id="preview-count">0 个候选</span></div><div id="ai-preview-list"></div><button type="button" class="button button-primary preview-confirm" id="ai-confirm">确认创建全部清单 <svg><use href="#i-check"/></svg></button></div>
+    <form class="ai-compose" id="ai-compose"><textarea id="ai-input" rows="2" maxlength="1200" placeholder="例：开发 APP > 登录模块 > 编写接口（也可以输入日期和提醒）" required></textarea><button type="submit" aria-label="解析清单"><svg><use href="#i-send"/></svg></button></form>
+  </div></dialog>
+
+  <dialog id="calendar-dialog" class="modal calendar-modal" aria-labelledby="mobile-calendar-title"><div class="modal-inner"><div class="modal-top"><div><div class="section-kicker"><span></span> MISSION CALENDAR</div><h2 id="mobile-calendar-title">清单日历</h2></div><button type="button" class="close-button" data-close-dialog aria-label="关闭"><svg><use href="#i-close"/></svg></button></div><div class="calendar-heading"><h3 id="calendar-month-label-modal">2026 / 10</h3><div><button type="button" class="tiny-icon" data-month-step="-1" aria-label="上个月">‹</button><button type="button" class="tiny-icon" data-month-step="1" aria-label="下个月">›</button></div></div><div class="weekday-row"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div><div class="calendar-grid calendar-grid-large" id="calendar-grid-modal"></div><div class="calendar-day-title" id="calendar-day-title-modal">所选日期</div><div class="calendar-events" id="calendar-events-modal"></div><button type="button" class="button button-primary calendar-create" data-add-selected><svg><use href="#i-plus"/></svg> 给这一天添加清单</button></div></dialog>
+
+  <dialog id="victory-dialog" class="modal victory-modal"><div class="victory-content"><span class="victory-sun">✦</span><div class="section-kicker">QUEST COMPLETED</div><h2 id="victory-headline">清单通关！</h2><p id="victory-caption">奖励已存入你的冒险档案。</p><strong id="victory-xp">+30 XP</strong><button type="button" class="button button-primary" data-close-dialog>继续冒险 <svg><use href="#i-arrow"/></svg></button></div></dialog>
+  <div id="toast-stack" class="toast-stack" role="status" aria-live="polite"></div><div id="effects-layer" class="effects-layer" aria-hidden="true"></div>
+</body>
+</html>
